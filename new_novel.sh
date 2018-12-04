@@ -95,7 +95,17 @@ do
     content=$(curl -sk  ${target_web[$i]%$'\r'}|\
     iconv -f gbk -t utf-8|\
     grep -e "<div id=\"content\">"|\
+    sed 's/.*<div id=\"content\">//g')
+    count=0
+    while( $? -ne 0 -a count -ne 5)
+    do
+    sleep 5
+    count=$(($count+1))
+    content=$(curl -sk  ${target_web[$i]%$'\r'}|\
+    iconv -f gbk -t utf-8|\
+    grep -e "<div id=\"content\">"|\
     sed 's/.*<div id=\"content\">//g')   
+    done
     if [ ${#content} -lt 500 ];then
 	continue
     fi
@@ -118,8 +128,8 @@ done
 ### STEP THREE 删除多余item（大于10）与临时文件 
 start=($(grep -noe "<item>" ${rss_file}| awk -F : '{print $1}'))
 end=$(grep -noe "<\/item>" ${rss_file}|tail -n 1|awk -F : '{print $1}')
-if [ x${start[10]} != x ];then
-sed -i "${start[10]},${end}d" ${rss_file}
+if [ x${start[20]} != x ];then
+sed -i "${start[20]},${end}d" ${rss_file}
 fi
 rm -f ${web_source_code}
 
