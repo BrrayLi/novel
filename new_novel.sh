@@ -36,7 +36,7 @@ log_file=$4
 # 下载网页源码
 curl -sA "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" $siteweb | iconv -f gbk -t utf-8 > $web_source_code
 if [ $? -ne 0 ];then
-sleep   1
+sleep   5
 curl -sA "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36" $siteweb | iconv -f gbk -t utf-8 > $web_source_code
 fi
 
@@ -92,12 +92,13 @@ do
     if [ ${flag[$i]} -eq 1 ];then 
     continue
     fi
+    #echo ${target_web[$i]%$'\r'}
     content=$(curl -sk  ${target_web[$i]%$'\r'}|\
     iconv -f gbk -t utf-8|\
     grep -e "<div id=\"content\">"|\
     sed 's/.*<div id=\"content\">//g')
     count=0
-    while( $? -ne 0 -a count -ne 5)
+    while [ $? -ne 0 -a $count -ne 5 ]
     do
     sleep 5
     count=$(($count+1))
