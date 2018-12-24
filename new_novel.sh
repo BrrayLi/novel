@@ -74,7 +74,7 @@ do
     done
     index=$(($index+1))
 done
-echo ${flag[@]}
+#echo ${flag[@]}
 # 确保最新获取的章节名并未发布
 #flag=0
 #for chaptername in ${rss_chapter[*]%'\r'}
@@ -89,7 +89,7 @@ echo ${flag[@]}
 for((i=0;i<${#flag[@]};i=i+1))
 do
     #获取小说内容
-    if [ ${flag[$i]} -eq 1 ];then 
+    if [ ${flag[$i]} -eq 1 -o x == x"${target_web[$i]%$'\r'}" ];then 
     continue
     fi
     #echo ${target_web[$i]%$'\r'}
