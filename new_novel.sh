@@ -121,7 +121,7 @@ do
     #更新发布时间
     sed -i "s/<lastBuildDate>\(.*\)<\/lastBuildDate>/<lastBuildDate>$(date)<\/lastBuildDate>/g" ${rss_file}   
     #更新日志
-    echo ${target_chapter[$i]%$'\r'}"|"${target_web[$i]%$'\r'}"|"`date` >> ${log_file}
+    echo ${target_chapter[$i]%$'\r'}"|"${target_web[$i]%$'\r'}"|"`date +%Y%m%d%H%M%S%Z` >> ${log_file}
 done
 
 
